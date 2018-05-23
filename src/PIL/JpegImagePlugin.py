@@ -84,10 +84,8 @@ def APP(self, marker):
             self.info["jfif_density"] = jfif_density
     elif marker == 0xFFE1 and s[:5] == b"Exif\0":
         # extract Exif information (incomplete)
-        # There may be multiple exif segments - concatenate them together
-        try:
-            self.info["exif"] += s[6:]
-        except KeyError:
+        # There may be multiple exif segments - only use the first
+        if "exif" not in self.info:
             self.info["exif"] = s
     elif marker == 0xFFE2 and s[:5] == b"FPXR\0":
         # extract FlashPix information (incomplete)
